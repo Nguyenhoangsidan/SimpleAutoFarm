@@ -59,10 +59,22 @@ Here is a list of all permissions to customize player experiences and monetize t
 The configuration file allows you to define tiers, speeds, gui layouts, and more!
 
 ```yaml
-# Radius to scan for mobs to attack (blocks)
+#   _____ _                 _         _         _          ______                     
+#  / ____(_)               | |       / \       | |        |  ____|                    
+# | (___  _ _ __ ___  _ __ | | ___  / _ \ _   _| |_ ___   | |__ __ _ _ __ _ __ ___  
+#  \___ \| | '_ ` _ \| '_ \| |/ _ \/ ___ \ | | | __/ _ \  |  __/ _` | '__| '_ ` _ \ 
+#  ____) | | | | | | | |_) | |  __/ /   \ \ |_| | || (_) | | | | (_| | |  | | | | | |
+# |_____/|_|_| |_| |_| .__/|_|\___/_/    \_\__,_|\__\___/  |_|  \__,_|_|  |_| |_| |_|
+#                    | |                                                            
+#                    |_|                                                            
+#
+# SimpleAutoFarm Configuration File
+# 
+
+# Mob detection radius (blocks)
 radius: 10.0
 
-# Walking speeds map matching permissions (Example: simpleautofarm.speed.x2)
+# Movement speed corresponding to permission (e.g. simpleautofarm.speed.x2)
 speeds:
   default: 0.22
   x2: 0.35
@@ -71,14 +83,80 @@ speeds:
 # Attack interval in ticks (20 ticks = 1 second)
 interval: 10
 
-# Durations for each tier in seconds (Daily Limits)
+# Daily farm durations (Seconds) per Tier Rank (Permission: simpleautofarm.tier.<name>)
 tiers:
   default: 300
   vip: 600
   mvp: 1200
 
-# Daily limit resets automatically
+# User Interface Configuration
+gui:
+  title: "&8» &a&lAFK CONTROL PANEL &8«"
+  size: 27
+  auto_attack:
+    slot: 10
+    material: "DIAMOND_SWORD"
+    name: "&b&l⚔ Auto Attack Mobs ⚔"
+    lore_on:
+      - "&7Status: &aACTIVE"
+      - ""
+      - "&8Click to &cDISABLE&8."
+    lore_off:
+      - "&7Status: &cINACTIVE"
+      - ""
+      - "&8Click to &aENABLE&8."
+  stand_still:
+    slot: 12
+    material: "IRON_BOOTS"
+    name: "&b&l👟 Stand Still 👟"
+    lore_on:
+      - "&7Status: &aACTIVE"
+      - ""
+      - "&8Click to &cDISABLE&8."
+    lore_off:
+      - "&7Status: &cINACTIVE"
+      - ""
+      - "&8Click to &aENABLE&8."
+  auto_eat:
+    slot: 14
+    material: "GOLDEN_APPLE"
+    name: "&d&l🍎 Auto Eat (Food/GApples) 🍎"
+    lore_on:
+      - "&7Status: &aACTIVE"
+      - ""
+      - "&8Click to &cDISABLE&8."
+    lore_off:
+      - "&7Status: &cINACTIVE"
+      - ""
+      - "&8Click to &aENABLE&8."
+  toggle_farm:
+    slot: 16
+    material_on: "LIME_DYE"
+    material_off: "GRAY_DYE"
+    name: "&e&l⭐ AutoFarm Core ⭐"
+    lore_on:
+      - "&7System Status: &aRUNNING"
+      - ""
+      - "&8Click to &cSTOP&8."
+    lore_off:
+      - "&7System Status: &cIDLE"
+      - ""
+      - "&8Click to &aSTART&8."
+  info:
+    slot: 22
+    material: "CLOCK"
+    name: "&a&l⏱ Time Information ⏱"
+    lore:
+      - "&7You have &e%time% &7left to farm today."
+
+bossbar:
+  title: "&a&lAFK TIME: &e&l%time%"
+  color: "GREEN"
+  style: "SOLID"
+
+# Automatic limit reset time (Hours)
 reset-time-hours: 24
+
 ```
 *(The config also lets you completely modify the GUI slots, materials, lores, and the Bossbar styling!)*
 
@@ -89,12 +167,40 @@ reset-time-hours: 24
 You can translate all messages or adjust prefixes directly in the `messages.yml`.
 
 ```yaml
-prefix: "&8[&aAutoFarm&8] "
-enabled: "&aAuto Farm enabled! You have &e%time% &aseconds left today."
-disabled: "&cAuto Farm disabled!"
-moved: "&cYou cannot move while Auto Farm is enabled! Type /autofarm to disable."
-finished: "&eAuto Farm session finished!"
-cooldown: "&cYou have used all your farming time today (%time%s). Please wait %wait% before farming again."
+#   _____ _                 _         _         _          ______                     
+#  / ____(_)               | |       / \       | |        |  ____|                    
+# | (___  _ _ __ ___  _ __ | | ___  / _ \ _   _| |_ ___   | |__ __ _ _ __ _ __ ___  
+#  \___ \| | '_ ` _ \| '_ \| |/ _ \/ ___ \ | | | __/ _ \  |  __/ _` | '__| '_ ` _ \ 
+#  ____) | | | | | | | |_) | |  __/ /   \ \ |_| | || (_) | | | | (_| | |  | | | | | |
+# |_____/|_|_| |_| |_| .__/|_|\___/_/    \_\__,_|\__\___/  |_|  \__,_|_|  |_| |_| |_|
+#                    | |                                                            
+#                    |_|                                                            
+#
+# Message Configuration for SimpleAutoFarm
+
+prefix: "&8[&a&lAutoFarm&8] "
+enabled: "&a&lENABLED &7| &aAuto Farm is now running! You have &e%time% &aleft today."
+disabled: "&c&lDISABLED &7| &cAuto Farm has been stopped!"
+moved: "&c&lWARNING &7| &fDo not move while AFK farming! Type /autofarm to disable."
+finished: "&e&lEXPIRED &7| &eYour AFK farming time for today has run out!"
+reload: "&a&lSUCCESS &7| &aAll configurations have been reloaded!"
+no_permission: "&c&lERROR &7| &cYou do not have permission to do this."
+cooldown: "&c&lTIMEOUT &7| &cYou have exceeded your limit (%time%s). Wait %wait% to farm again."
+admin_reset: "&a&lADMIN &7| &fReset farming time for player &e%player%."
+player_not_found: "&c&lERROR &7| &cCould not find the specified player."
+
+help:
+  - "&8&m==========================================="
+  - " &a&l SimpleAutoFarm &7- Ultimate Edition"
+  - ""
+  - " &f&l* &e/autofarm &7- Open the main menu."
+  - " &f&l* &e/autofarm help &7- View this help page."
+
+admin_help:
+  - " &c&l* &e/autofarm reload &7- Reload plugin data."
+  - " &c&l* &e/autofarm reset <name> &7- Reset player time limits."
+  - "&8&m==========================================="
+
 ```
 
 ---
