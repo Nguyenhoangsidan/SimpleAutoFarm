@@ -1,0 +1,2 @@
+# SimpleAutoFarm
+Autofarm Plugin
